@@ -4,6 +4,8 @@
 #     strategy_name: a string
 #     strategy_description: a string
 #     move: A function that returns 'c' or 'b'
+#
+#     Stephen Funderburk
 ####
 
 team_name = 'The name the team gives to itself' # Only 10 chars displayed.
