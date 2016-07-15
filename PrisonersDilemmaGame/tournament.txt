@@ -1,0 +1,888 @@
+--------------------------------------------------------------------------------
+Section 0 - Line up
+--------------------------------------------------------------------------------
+Player 0 (P0): Kelsey, Years to build, seconds to break
+        Collude until betrayed, then always betray.
+Player 1 (P1): Lynn and Gretchen, No strategy yet
+        How does this strategy decide?
+Player 2 (P2): Nick&Tyrone, New Optimal Internet Strategy
+        Weight strategy based only on last encounter
+Player 3 (P3): Laura and Dave, The name the team gives to this strategy
+        How does this strategy decide?
+Player 4 (P4): The name the team gives to itself, The name the team gives to this strategy
+        How does this strategy decide?
+Player 5 (P5): MV & SF, The name the team gives to this strategy
+        How does this strategy decide?
+--------------------------------------------------------------------------------
+Section 1 - Player vs. Player
+--------------------------------------------------------------------------------
+Each column shows pts/round earned against each other player:
+             P0     P1     P2     P3     P4     P5
+vs. P0 :      0    -73   -241   -128   -266   -240
+vs. P1 :    -65      0   -234      0   -235   -245
+vs. P2 :   -258   -248      0   -252   -263   -250
+vs. P3 :     25      0   -248      0     89   -247
+vs. P4 :   -221   -242   -224   -449      0   -212
+vs. P5 :   -258   -255   -250   -253   -278      0
+TOTAL  :   -777   -818  -1197  -1082   -953  -1194
+--------------------------------------------------------------------------------
+Section 2 - Leaderboard
+--------------------------------------------------------------------------------
+Average points per round:
+Team name (P#):  Score      with strategy name
+Kelsey    (P0):       -130 points with Years to build, seconds to break        
+Lynn and G(P1):       -137 points with No strategy yet                         
+The name t(P4):       -159 points with The name the team gives to this strategy
+Laura and (P3):       -181 points with The name the team gives to this strategy
+MV & SF   (P5):       -199 points with The name the team gives to this strategy
+Nick&Tyron(P2):       -200 points with New Optimal Internet Strategy           
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+team0--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'Kelsey' # Only 10 chars displayed.
+strategy_name = 'Years to build, seconds to break'
+strategy_description = 'Collude until betrayed, then always betray.'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+
+    if not their_history:
+        return 'c'
+        
+    if len(their_history) > 98:
+        return 'b'
+        
+    if len(their_history) < 80:
+        if len(their_history) > 6:
+            if 'b' not in their_history[:7]:
+                return 'c'
+
+    # if the total number of betrayals by the opponent is 
+    # greater than three, always betray
+    
+    betray_history = 0
+    
+    for betrayals in their_history:
+        if betrayals == 'b':
+            betray_history += 1
+    
+    if betray_history > 3:
+        return 'b'
+
+    # failsafe; if none of the other conditions are true,
+    # cooperate
+
+    return 'c'
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+#if __name__ == '__main__':
+     
+
+#    # Test 1: Collude on first move.
+#    if test_move(my_history='',
+#              their_history='', 
+#
+#    # Test 1: Betray on first move.
+#    if test_move(my_history='ccc',
+#              their_history='bbb', 
+#
+#              my_score=0,
+#              their_score=0,
+#              result='c'):
+#         print 'Test passed'
+#     # Test 2: Continue betraying if they collude despite being betrayed.
+#    test_move(my_history='ccc',
+#              their_history='bbb', 
+#              # Note the scores are for testing move().
+#              # The history and scores don't need to match unless
+#              # that is relevant to the test of move(). Here,
+#              # the simulation (if working correctly) would have awarded 
+#              # 300 to me and -750 to them. This test will pass if and only if
+#              # move('bbb', 'ccc', 0, 0) returns 'b'.
+#              my_score=0, 
+#              their_score=0,
+#              result='b')             --------------------------------------------------------------------------------
+team1--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'Lynn and Gretchen' # Only 10 chars displayed.
+strategy_name = 'No strategy yet'
+strategy_description = 'How does this strategy decide?'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.'''
+    
+ 
+
+    lookup_table = {
+        'ccc' : 'c',
+        'ccb' : 'c',
+        'cbb' : 'b',
+        'bbb' : 'b',
+        'bcc' : 'c',
+        'bbc' : 'c',
+        'bcb' : 'b',
+        'cbc' : 'c',
+    }
+
+    # First two moves
+    if len(my_history) < 3:
+        return 'c'
+
+    # Get the opponent's last two actions
+    opponent_actions = their_history[-3:]
+    # Use it to look up my action
+    my_action = lookup_table[opponent_actions]
+    return my_action
+  
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    return 'c'
+'''
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team2--------------------------------------------------------------------------------
+import random
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'Nick&Tyrone' # Only 10 chars displayed.
+strategy_name = 'New Optimal Internet Strategy'
+strategy_description = 'Weight strategy based only on last encounter'  
+
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+    if my_history=='':
+        return 'b'
+    
+    if my_history[-1] == 'c':
+        if their_history[-1] == 'c':
+            return random.choice(['c','c','c','b','c','c','c','c','c'])
+        else:
+            return random.choice(['c','b','c','b']) # c-b collude 50%
+    else:
+        if their_history[-1]=='c':
+            return random.choice(['b','c','b']) # b-c collude 33%
+        else:
+            return 'b' # b-b always betray
+    
+    #return 'c'
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team3--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+
+team_name = 'Laura and Dave' # Only 10 chars displayed.
+
+strategy_name = 'The name the team gives to this strategy'
+strategy_description = 'How does this strategy decide?'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+
+    opp_b = 0
+    opp_c = 0
+   
+    
+
+    # Strategy: First round, collude. Subsequesnt rounds, mimic the move they made in their last move.
+    
+    if len(their_history)<1: #It's the first round: collude
+        return 'c'
+   
+    else:
+        for choice in their_history:
+            if choice == 'c':    # their previous choice was collude
+                opp_c +=1
+                return 'c'
+            
+            else:               # their previous choice was betray
+                opp_b +=1
+                return 'b'
+               
+                 
+    
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+
+
+if __name__ == '__main__':
+# Test 1
+    if test_move(my_history='',
+                 their_history='',
+                 my_score=0,
+                 their_score=0,
+                 result='c'):
+        print 'Test 1 passed'
+    else:
+        print 'Test 1 Failed'
+
+#Test 2 
+    if test_move(my_history='c',
+                 their_history='c',
+                 my_score=0,
+                 their_score=0,
+                 result='c'):
+        print 'Test 2  passed'
+    else:
+        print 'Test 2 Failed'
+
+#Test 3
+    if test_move(my_history='c',
+                 their_history='b',
+                 my_score=0,
+                 their_score=0,
+                 result='b'):
+        print 'Test 3 passed'
+    else:
+        print 'Test 3 Failed'
+   
+--------------------------------------------------------------------------------
+team4--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'The name the team gives to itself' # Only 10 chars displayed.
+strategy_name = 'The name the team gives to this strategy'
+strategy_description = 'How does this strategy decide?'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    if (len(my_history) % 10 == 0):
+        return 'c'
+    else:
+        return 'b'
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team5--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+#
+#     Stephen Funderburk
+####
+
+team_name = 'MV & SF' # Only 10 chars displayed.
+strategy_name = 'The name the team gives to this strategy'
+strategy_description = 'How does this strategy decide?'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+    Index = len(their_history);
+    Rating = 0;
+    for I in their_history:
+        Z = pow(Index,2)
+        if( I == 'c' ):
+            Rating += (1/Z)
+        else:
+            Rating -= (1/Z)
+        Index -= 1
+
+    if( Rating > 1 ):
+        return 'c'
+    else:
+        return 'b'
+
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    return 'c'
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+Section 3 - Game Data for Team Kelsey
+--------------------------------------------------------------------------------
+-65 pt/round: Kelsey(P0) "Years to build, seconds to break"
+-73 pt/round: Lynn and Gretchen(P1) "No strategy yet"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCCCCCCCCCCccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-258 pt/round: Kelsey(P0) "Years to build, seconds to break"
+-241 pt/round: Nick&Tyrone(P2) "New Optimal Internet Strategy"
+ccccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+BBBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+25 pt/round: Kelsey(P0) "Years to build, seconds to break"
+-128 pt/round: Laura and Dave(P3) "The name the team gives to this strategy"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+CCCCCCCCCCCCCCCCCCCcccccccccccccccccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+-221 pt/round: Kelsey(P0) "Years to build, seconds to break"
+-266 pt/round: The name the team gives to itself(P4) "The name the team gives to this strategy"
+CccccbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbb
+CBBBBbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbb
+
+BbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbb
+cbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbb
+
+BbbbbbbbbbBbbbbbbbbbBbbbbbb
+cbbbbbbbbbcbbbbbbbbbcbbbbbb
+
+--------------------------------------------------------------------------------
+-258 pt/round: Kelsey(P0) "Years to build, seconds to break"
+-240 pt/round: MV & SF(P5) "The name the team gives to this strategy"
+ccccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+BBBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Lynn and Gretchen
+--------------------------------------------------------------------------------
+-73 pt/round: Lynn and Gretchen(P1) "No strategy yet"
+-65 pt/round: Kelsey(P0) "Years to build, seconds to break"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCCCCCCCCCCBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: Lynn and Gretchen(P1) "No strategy yet"
+-234 pt/round: Nick&Tyrone(P2) "New Optimal Internet Strategy"
+cCCCCccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+BCCCCBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+0 pt/round: Lynn and Gretchen(P1) "No strategy yet"
+0 pt/round: Laura and Dave(P3) "The name the team gives to this strategy"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-242 pt/round: Lynn and Gretchen(P1) "No strategy yet"
+-235 pt/round: The name the team gives to itself(P4) "The name the team gives to this strategy"
+CccbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbb
+CBBbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbb
+
+BcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbb
+cBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbb
+
+BcbbbbbbbbBcb
+cBbbbbbbbbcBb
+
+--------------------------------------------------------------------------------
+-255 pt/round: Lynn and Gretchen(P1) "No strategy yet"
+-245 pt/round: MV & SF(P5) "The name the team gives to this strategy"
+cccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+BBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Nick&Tyrone
+--------------------------------------------------------------------------------
+-241 pt/round: Nick&Tyrone(P2) "New Optimal Internet Strategy"
+-258 pt/round: Kelsey(P0) "Years to build, seconds to break"
+BBBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ccccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-234 pt/round: Nick&Tyrone(P2) "New Optimal Internet Strategy"
+-248 pt/round: Lynn and Gretchen(P1) "No strategy yet"
+BCCCCBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cCCCCccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: Nick&Tyrone(P2) "New Optimal Internet Strategy"
+-252 pt/round: Laura and Dave(P3) "The name the team gives to this strategy"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-224 pt/round: Nick&Tyrone(P2) "New Optimal Internet Strategy"
+-263 pt/round: The name the team gives to itself(P4) "The name the team gives to this strategy"
+BccbbbbbbbBbbbbbbbbbBbbbbbbbbbBcbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbb
+cBBbbbbbbbcbbbbbbbbbcbbbbbbbbbcBbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbb
+
+BcbbbbbbbbBbbbbbbbbbBbbbbb
+cBbbbbbbbbcbbbbbbbbbcbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: Nick&Tyrone(P2) "New Optimal Internet Strategy"
+-250 pt/round: MV & SF(P5) "The name the team gives to this strategy"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Laura and Dave
+--------------------------------------------------------------------------------
+-128 pt/round: Laura and Dave(P3) "The name the team gives to this strategy"
+25 pt/round: Kelsey(P0) "Years to build, seconds to break"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCcccccccccccccccccccccccccccccccccc
+CCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+0 pt/round: Laura and Dave(P3) "The name the team gives to this strategy"
+0 pt/round: Lynn and Gretchen(P1) "No strategy yet"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-252 pt/round: Laura and Dave(P3) "The name the team gives to this strategy"
+-248 pt/round: Nick&Tyrone(P2) "New Optimal Internet Strategy"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-449 pt/round: Laura and Dave(P3) "The name the team gives to this strategy"
+89 pt/round: The name the team gives to itself(P4) "The name the team gives to this strategy"
+CcccccccccCcccccccccCcccccccccCcccccccccCcccccccccCcccccccccCcccccccccCccccccccc
+CBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBB
+
+CcccccccccCcccccccccCcccccccccCcccccccccCcccccccccCcccccccccCcccccccccCccccccccc
+CBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBB
+
+CcccccccccCcccccccccCccccc
+CBBBBBBBBBCBBBBBBBBBCBBBBB
+
+--------------------------------------------------------------------------------
+-253 pt/round: Laura and Dave(P3) "The name the team gives to this strategy"
+-247 pt/round: MV & SF(P5) "The name the team gives to this strategy"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team The name the team gives to itself
+--------------------------------------------------------------------------------
+-266 pt/round: The name the team gives to itself(P4) "The name the team gives to this strategy"
+-221 pt/round: Kelsey(P0) "Years to build, seconds to break"
+CBBBBbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbb
+CccccbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbb
+
+cbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbb
+BbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbb
+
+cbbbbbbbbbcbbbbbbbbbcbbbbbb
+BbbbbbbbbbBbbbbbbbbbBbbbbbb
+
+--------------------------------------------------------------------------------
+-235 pt/round: The name the team gives to itself(P4) "The name the team gives to this strategy"
+-242 pt/round: Lynn and Gretchen(P1) "No strategy yet"
+CBBbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbb
+CccbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbb
+
+cBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbbcBbbbbbbbb
+BcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbbBcbbbbbbbb
+
+cBbbbbbbbbcBb
+BcbbbbbbbbBcb
+
+--------------------------------------------------------------------------------
+-263 pt/round: The name the team gives to itself(P4) "The name the team gives to this strategy"
+-224 pt/round: Nick&Tyrone(P2) "New Optimal Internet Strategy"
+cBBbbbbbbbcbbbbbbbbbcbbbbbbbbbcBbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbb
+BccbbbbbbbBbbbbbbbbbBbbbbbbbbbBcbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbb
+
+cBbbbbbbbbcbbbbbbbbbcbbbbb
+BcbbbbbbbbBbbbbbbbbbBbbbbb
+
+--------------------------------------------------------------------------------
+89 pt/round: The name the team gives to itself(P4) "The name the team gives to this strategy"
+-449 pt/round: Laura and Dave(P3) "The name the team gives to this strategy"
+CBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBB
+CcccccccccCcccccccccCcccccccccCcccccccccCcccccccccCcccccccccCcccccccccCccccccccc
+
+CBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBBCBBBBBBBBB
+CcccccccccCcccccccccCcccccccccCcccccccccCcccccccccCcccccccccCcccccccccCccccccccc
+
+CBBBBBBBBBCBBBBBBBBBCBBBBB
+CcccccccccCcccccccccCccccc
+
+--------------------------------------------------------------------------------
+-278 pt/round: The name the team gives to itself(P4) "The name the team gives to this strategy"
+-212 pt/round: MV & SF(P5) "The name the team gives to this strategy"
+cbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbb
+BbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbb
+
+cbbbbbbbbbcbbbbbbbbbc
+BbbbbbbbbbBbbbbbbbbbB
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team MV & SF
+--------------------------------------------------------------------------------
+-240 pt/round: MV & SF(P5) "The name the team gives to this strategy"
+-258 pt/round: Kelsey(P0) "Years to build, seconds to break"
+BBBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ccccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-245 pt/round: MV & SF(P5) "The name the team gives to this strategy"
+-255 pt/round: Lynn and Gretchen(P1) "No strategy yet"
+BBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: MV & SF(P5) "The name the team gives to this strategy"
+-250 pt/round: Nick&Tyrone(P2) "New Optimal Internet Strategy"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-247 pt/round: MV & SF(P5) "The name the team gives to this strategy"
+-253 pt/round: Laura and Dave(P3) "The name the team gives to this strategy"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-212 pt/round: MV & SF(P5) "The name the team gives to this strategy"
+-278 pt/round: The name the team gives to itself(P4) "The name the team gives to this strategy"
+BbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbbBbbbbbbbbb
+cbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbbcbbbbbbbbb
+
+BbbbbbbbbbBbbbbbbbbbB
+cbbbbbbbbbcbbbbbbbbbc
+
+--------------------------------------------------------------------------------
