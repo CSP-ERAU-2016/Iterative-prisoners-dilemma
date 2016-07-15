@@ -26,6 +26,7 @@ def move(my_history, their_history, my_score, their_score):
     # Analyze my_history and their_history and/or my_score and their_score.
     # Decide whether to return 'c' or 'b'.
     
+<<<<<<< Updated upstream
     if not their_history:
         return 'c'
         
@@ -51,6 +52,9 @@ def move(my_history, their_history, my_score, their_score):
 
     # failsafe; if none of the other conditions are true,
     # cooperate
+=======
+    
+>>>>>>> Stashed changes
     return 'c'
 
     
@@ -72,9 +76,15 @@ def test_move(my_history, their_history, my_score, their_score, result):
 
 if __name__ == '__main__':
      
+<<<<<<< Updated upstream
     # Test 1: Collude on first move.
     if test_move(my_history='',
               their_history='', 
+=======
+    # Test 1: Betray on first move.
+    if test_move(my_history='ccc',
+              their_history='bbb', 
+>>>>>>> Stashed changes
               my_score=0,
               their_score=0,
               result='c'):
