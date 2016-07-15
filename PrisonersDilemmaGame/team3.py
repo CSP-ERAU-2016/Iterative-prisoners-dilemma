@@ -6,7 +6,11 @@
 #     move: A function that returns 'c' or 'b'
 ####
 
+<<<<<<< HEAD
+team_name = 'LauraandDave' # Only 10 chars displayed.
+=======
 team_name = 'Laura and Dave' # Only 10 chars displayed.
+>>>>>>> origin/master
 strategy_name = 'The name the team gives to this strategy'
 strategy_description = 'How does this strategy decide?'
     
@@ -28,29 +32,26 @@ def move(my_history, their_history, my_score, their_score):
 
     opp_b = 0
     opp_c = 0
-    percentage = 0
-    if len(their_history)<10: #It's the first round: collude
-        return 'c'
-    elif len(their_history)<20:
-        return 'b'
-    else:
-        for choice in their_history:
-            if choice == 'b':
-                opp_b += 1
-            else:
-                opp_c += 1
-                
-        if opp_c != 0:
-            percentage = float(opp_b / opp_c)
-        else:
-            return 'b'
-    
-        if percentage >= 1:
-            return 'b'
-        else:
-            return 'c'
+   
     
 
+    # Strategy: First round, collude. Subsequesnt rounds, mimic the move they made in their last move.
+    
+    if len(their_history)<1: #It's the first round: collude
+        return 'c'
+   
+    else:
+        for choice in their_history:
+            if choice == 'c':    # their previous choice was collude
+                opp_c +=1
+                return 'c'
+            
+            else:               # their previous choice was betray
+                opp_b +=1
+                return 'b'
+               
+                 
+    
 
     
 def test_move(my_history, their_history, my_score, their_score, result):
@@ -69,24 +70,36 @@ def test_move(my_history, their_history, my_score, their_score, result):
             " and should have returned '" + result + "'")
         return False
 
+
+
 if __name__ == '__main__':
-     
-    # Test 1: Betray on first move.
+# Test 1
     if test_move(my_history='',
-              their_history='', 
-              my_score=0,
-              their_score=0,
-              result='b'):
-         print 'Test passed'
-     # Test 2: Continue betraying if they collude despite being betrayed.
-    test_move(my_history='bbb',
-              their_history='ccc', 
-              # Note the scores are for testing move().
-              # The history and scores don't need to match unless
-              # that is relevant to the test of move(). Here,
-              # the simulation (if working correctly) would have awarded 
-              # 300 to me and -750 to them. This test will pass if and only if
-              # move('bbb', 'ccc', 0, 0) returns 'b'.
-              my_score=0, 
-              their_score=0,
-              result='b')             
+                 their_history='',
+                 my_score=0,
+                 their_score=0,
+                 result='c'):
+        print 'Test 1 passed'
+    else:
+        print 'Test 1 Failed'
+
+#Test 2 
+    if test_move(my_history='c',
+                 their_history='c',
+                 my_score=0,
+                 their_score=0,
+                 result='c'):
+        print 'Test 2  passed'
+    else:
+        print 'Test 2 Failed'
+
+#Test 3
+    if test_move(my_history='c',
+                 their_history='b',
+                 my_score=0,
+                 their_score=0,
+                 result='b'):
+        print 'Test 3 passed'
+    else:
+        print 'Test 3 Failed'
+   
