@@ -26,7 +26,7 @@ def move(my_history, their_history, my_score, their_score):
     # Analyze my_history and their_history and/or my_score and their_score.
     # Decide whether to return 'c' or 'b'.
     
-<<<<<<< Updated upstream
+
     if not their_history:
         return 'c'
         
@@ -52,9 +52,7 @@ def move(my_history, their_history, my_score, their_score):
 
     # failsafe; if none of the other conditions are true,
     # cooperate
-=======
-    
->>>>>>> Stashed changes
+
     return 'c'
 
     
@@ -74,30 +72,30 @@ def test_move(my_history, their_history, my_score, their_score, result):
             " and should have returned '" + result + "'")
         return False
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
      
-<<<<<<< Updated upstream
-    # Test 1: Collude on first move.
-    if test_move(my_history='',
-              their_history='', 
-=======
-    # Test 1: Betray on first move.
-    if test_move(my_history='ccc',
-              their_history='bbb', 
->>>>>>> Stashed changes
-              my_score=0,
-              their_score=0,
-              result='c'):
-         print 'Test passed'
-     # Test 2: Continue betraying if they collude despite being betrayed.
-    test_move(my_history='ccc',
-              their_history='bbb', 
-              # Note the scores are for testing move().
-              # The history and scores don't need to match unless
-              # that is relevant to the test of move(). Here,
-              # the simulation (if working correctly) would have awarded 
-              # 300 to me and -750 to them. This test will pass if and only if
-              # move('bbb', 'ccc', 0, 0) returns 'b'.
-              my_score=0, 
-              their_score=0,
-              result='b')             
+
+#    # Test 1: Collude on first move.
+#    if test_move(my_history='',
+#              their_history='', 
+#
+#    # Test 1: Betray on first move.
+#    if test_move(my_history='ccc',
+#              their_history='bbb', 
+#
+#              my_score=0,
+#              their_score=0,
+#              result='c'):
+#         print 'Test passed'
+#     # Test 2: Continue betraying if they collude despite being betrayed.
+#    test_move(my_history='ccc',
+#              their_history='bbb', 
+#              # Note the scores are for testing move().
+#              # The history and scores don't need to match unless
+#              # that is relevant to the test of move(). Here,
+#              # the simulation (if working correctly) would have awarded 
+#              # 300 to me and -750 to them. This test will pass if and only if
+#              # move('bbb', 'ccc', 0, 0) returns 'b'.
+#              my_score=0, 
+#              their_score=0,
+#              result='b')             

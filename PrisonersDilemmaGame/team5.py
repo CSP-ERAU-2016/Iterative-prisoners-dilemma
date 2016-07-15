@@ -8,7 +8,7 @@
 #     Stephen Funderburk
 ####
 
-team_name = 'The name the team gives to itself' # Only 10 chars displayed.
+team_name = 'MV & SF' # Only 10 chars displayed.
 strategy_name = 'The name the team gives to this strategy'
 strategy_description = 'How does this strategy decide?'
     
@@ -19,6 +19,21 @@ def move(my_history, their_history, my_score, their_score):
     Make my move.
     Returns 'c' or 'b'. 
     '''
+    Index = len(their_history);
+    Rating = 0;
+    for I in their_history:
+        Z = pow(Index,2)
+        if( I == 'c' ):
+            Rating += (1/Z)
+        else:
+            Rating -= (1/Z)
+        Index -= 1
+
+    if( Rating > 1 ):
+        return 'c'
+    else:
+        return 'b'
+
 
     # my_history: a string with one letter (c or b) per round that has been played with this opponent.
     # their_history: a string of the same length as history, possibly empty. 
