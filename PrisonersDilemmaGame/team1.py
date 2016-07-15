@@ -6,16 +6,37 @@
 #     move: A function that returns 'c' or 'b'
 ####
 
-team_name = 'The name the team gives to itself' # Only 10 chars displayed.
-strategy_name = 'The name the team gives to this strategy'
+team_name = 'Lynn and Gretchen' # Only 10 chars displayed.
+strategy_name = 'No strategy yet'
 strategy_description = 'How does this strategy decide?'
     
 def move(my_history, their_history, my_score, their_score):
     ''' Arguments accepted: my_history, their_history are strings.
-    my_score, their_score are ints.
+    my_score, their_score are ints.'''
     
-    Make my move.
-    Returns 'c' or 'b'. 
+ 
+
+    lookup_table = {
+        'ccc' : 'c',
+        'ccb' : 'c',
+        'cbb' : 'b',
+        'bbb' : 'b',
+        'bcc' : 'c',
+        'bbc' : 'c',
+        'bcb' : 'b',
+        'cbc' : 'c',
+    }
+
+    # First two moves
+    if len(my_history) < 3:
+        return 'c'
+
+    # Get the opponent's last two actions
+    opponent_actions = their_history[-3:]
+    # Use it to look up my action
+    my_action = lookup_table[opponent_actions]
+    return my_action
+  
     '''
 
     # my_history: a string with one letter (c or b) per round that has been played with this opponent.
@@ -27,6 +48,7 @@ def move(my_history, their_history, my_score, their_score):
     # Decide whether to return 'c' or 'b'.
     
     return 'c'
+'''
 
     
 def test_move(my_history, their_history, my_score, their_score, result):
