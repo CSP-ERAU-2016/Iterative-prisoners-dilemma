@@ -1,3 +1,4 @@
+import random
 ####
 # Each team's file must define four tokens:
 #     team_name: a string
@@ -8,9 +9,7 @@
 
 team_name = 'Nick&Tyrone' # Only 10 chars displayed.
 strategy_name = 'New Optimal Internet Strategy'
-strategy_description = 'Weight strategy based only on last encounter'
-
-import random  
+strategy_description = 'Weight strategy based only on last encounter'  
 
 def move(my_history, their_history, my_score, their_score):
     ''' Arguments accepted: my_history, their_history are strings.
@@ -24,16 +23,16 @@ def move(my_history, their_history, my_score, their_score):
     
     if my_history[-1] == 'c':
         if their_history[-1] == 'c':
-            return random.choice['c','c','c','b','c','c','c','c','c']
+            return random.choice(['c','c','c','b','c','c','c','c','c'])
         else:
-            return random.choice['c','b','c','b'] # c-b collude 50%
+            return random.choice(['c','b','c','b']) # c-b collude 50%
     else:
         if their_history[-1]=='c':
-            return random.choice['b','c','b'] # b-c collude 33%
+            return random.choice(['b','c','b']) # b-c collude 33%
         else:
             return 'b' # b-b always betray
     
-    return 'c'
+    #return 'c'
 
     
 def test_move(my_history, their_history, my_score, their_score, result):
